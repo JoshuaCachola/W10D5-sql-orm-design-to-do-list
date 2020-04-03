@@ -1,4 +1,5 @@
 // TODO: Import your models, here
+const { Category } = require('./models');
 
 
 class ManageCategoriesScreen {
@@ -14,7 +15,11 @@ class ManageCategoriesScreen {
     console.log();
 
     // TODO: Get the categories
+    const categories = await Category.findAll({
+      order: [['id', 'ASC']]
+    });
     // TODO: Print the categories with their ids so a user can select one
+    categories.forEach((category, i) => console.log(`${i + 1}. ${category.name}`));
 
     console.log();
     console.log("X. Go to main screen");

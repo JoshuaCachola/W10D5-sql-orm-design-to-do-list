@@ -1,4 +1,5 @@
 // TODO: import your models here
+const { Note, Task, Category } = require('./models');
 
 class AddItemScreen {
   constructor(rl) {
@@ -56,6 +57,11 @@ class AddItemScreen {
     console.log();
 
     // TODO: Get categories, here
+    const categories = await Category.findAll({
+      order: [['id', 'ASC']]
+    });
+
+    categories.forEach((category, i) => console.log(`${i + 1}. ${category.name}`));
     // TODO: Print categories, here, with ids so users can select them
 
     console.log();
@@ -71,6 +77,9 @@ class AddItemScreen {
 
     // TODO: Get the category by its id
     // TODO: Print it here
+
+    const category = await Category.findByPk(categoryId + 1);
+    console.log(category.name);
 
     console.log();
     console.log("(Type your text and hit \"Enter\" to return to");
@@ -88,7 +97,9 @@ class AddItemScreen {
         this.rl.question("> ", async answer => {
 
           // TODO: Save a Note, here
-
+          await Note.create({
+            description: answer
+          });
           const screen = new ManageTasksScreen(this.rl);
           screen.show();
         });
@@ -102,7 +113,11 @@ class AddItemScreen {
             this.rl.question("> ", async description => {
 
               // TODO: Save a task, here with title, categoryId, and description
-
+              await Task.create({
+                name: title,
+                category_id: categoryId + 1,
+                desciption: description
+              });
               const screen = new ManageTasksScreen(this.rl);
               screen.show();
             });

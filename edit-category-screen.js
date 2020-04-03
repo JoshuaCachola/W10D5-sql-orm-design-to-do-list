@@ -1,4 +1,5 @@
 // TODO: import your models, here
+const { Category } = require('./models');
 
 class EditCategoryScreen {
   constructor(rl, categoryId) {
@@ -8,13 +9,14 @@ class EditCategoryScreen {
 
   async printUi() {
     // TODO: Get the category by its index
-
+    const category = await Category.findByPk(this.categoryId + 1);
     console.clear();
     console.log("********************************************");
     console.log("* EDIT CATEGORY                 (c) 1987   *");
     console.log("********************************************");
     console.log();
 
+    console.log(category.name);
     // TODO: Show the category name here
 
     console.log();
@@ -25,13 +27,15 @@ class EditCategoryScreen {
 
   async show() {
     await this.printUi();
-    this.rl.question("> ", newCategoryName => {
+    this.rl.question("> ", async newCategoryName => {
 
       // TODO: Get the category by its categoryId that was passed in through the
       //       constructor and is stored in this.categoryId
       // TODO: Update it with the new category name
       // TODO: Save it
-
+      const category = await Category.findByPk(this.categoryId + 1);
+      category.name = newCategoryName;
+      await category.save();
       new ManageCategoriesScreen(this.rl).show();
     });
   }
