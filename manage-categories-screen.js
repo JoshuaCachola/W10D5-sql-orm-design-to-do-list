@@ -1,5 +1,6 @@
 // TODO: Import your models, here
 
+
 class ManageCategoriesScreen {
   constructor(rl) {
     this.rl = rl;
